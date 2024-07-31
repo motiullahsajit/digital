@@ -1,4 +1,5 @@
 import { z } from "zod";
+
 export const AuthCredentialsValidator = z.object({
   email: z.string().email(),
   password: z
