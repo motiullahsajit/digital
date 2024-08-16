@@ -19,7 +19,14 @@ const Page = () => {
   const { mutate: createCheckoutSession, isLoading } =
     trpc.payment.createSession.useMutation({
       onSuccess: ({ url }) => {
-        if (url) router.push(url);
+        if (url) {
+          router.push(url);
+        } else {
+          console.error("URL is null or undefined");
+        }
+      },
+      onError: (error) => {
+        console.error("Error creating checkout session:", error);
       },
     });
 

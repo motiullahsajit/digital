@@ -1,9 +1,21 @@
 import { z } from "zod";
-import { privateProcedure, publicProcedure, router } from "./trpc";
+import nodemailer from "nodemailer";
+import { privateProcedure, router } from "./trpc";
 import { TRPCError } from "@trpc/server";
 import { getPayloadClient } from "../get-payload";
-import { stripe } from "../lib/stripe";
-import type Stripe from "stripe";
+import { Product } from "@/payload-types";
+import { ReceiptEmailHtml } from "../components/emails/ReceiptEmail";
+
+const transporter = nodemailer.createTransport({
+  service: "gmail",
+  host: "smtp.gmail.com",
+  port: 587,
+  secure: false,
+  auth: {
+    user: process.env.USER,
+    pass: process.env.PASS,
+  },
+});
 
 export const paymentRouter = router({
   createSession: privateProcedure
@@ -29,47 +41,39 @@ export const paymentRouter = router({
 
       const filteredProducts = products.filter((prod) => Boolean(prod.priceId));
 
-      const order = await payload.create({
-        collection: "orders",
-        data: {
-          _isPaid: false,
-          products: filteredProducts.map((prod) => prod.id),
-          user: user.id,
-        },
-      });
-
-      const line_items: Stripe.Checkout.SessionCreateParams.LineItem[] = [];
-
-      filteredProducts.forEach((product) => {
-        line_items.push({
-          price: product.priceId!,
-          quantity: 1,
-        });
-      });
-
-      line_items.push({
-        price: "price_1OCeBwA19umTXGu8s4p2G3aX",
-        quantity: 1,
-        adjustable_quantity: {
-          enabled: false,
-        },
-      });
-
       try {
-        const stripeSession = await stripe.checkout.sessions.create({
-          success_url: `${process.env.NEXT_PUBLIC_SERVER_URL}/thank-you?orderId=${order.id}`,
-          cancel_url: `${process.env.NEXT_PUBLIC_SERVER_URL}/cart`,
-          payment_method_types: ["card", "paypal"],
-          mode: "payment",
-          metadata: {
-            userId: user.id,
-            orderId: order.id,
+        const order = await payload.create({
+          collection: "orders",
+          data: {
+            _isPaid: true,
+            products: filteredProducts.map((prod) => prod.id.toString()) as (
+              | string
+              | Product
+            )[],
+
+            user: user.id,
           },
-          line_items,
         });
-        console.log(stripeSession, "stripe");
-        return { url: stripeSession.url };
+
+        const mailOptions = {
+          from: "DigitalHippo",
+          to: user.email,
+          subject: "Thanks for your order! This is your receipt.",
+          html: ReceiptEmailHtml({
+            date: new Date(),
+            email: user.email,
+            orderId: order.id as string,
+            products: order.products as Product[],
+          }),
+        };
+
+        await transporter.sendMail(mailOptions);
+
+        const generatedUrl = `/pay?orderId=${order.id}`;
+
+        return { url: generatedUrl };
       } catch (err) {
+        console.error("Error during order creation or URL generation:", err);
         return { url: null };
       }
     }),
