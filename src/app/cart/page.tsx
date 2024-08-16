@@ -13,6 +13,7 @@ import { useEffect, useState } from "react";
 
 const Page = () => {
   const { items, removeItem } = useCart();
+
   const router = useRouter();
 
   const { mutate: createCheckoutSession, isLoading } =
@@ -196,9 +197,7 @@ const Page = () => {
             <div className="mt-6">
               <Button
                 disabled={items.length === 0 || isLoading}
-                onClick={() =>
-                  createCheckoutSession({ productIds: productIds })
-                }
+                onClick={() => createCheckoutSession({ productIds })}
                 className="w-full"
                 size="lg"
               >

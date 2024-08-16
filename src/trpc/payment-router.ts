@@ -1,5 +1,5 @@
 import { z } from "zod";
-import { privateProcedure, router } from "./trpc";
+import { privateProcedure, publicProcedure, router } from "./trpc";
 import { TRPCError } from "@trpc/server";
 import { getPayloadClient } from "../get-payload";
 import { stripe } from "../lib/stripe";
@@ -10,7 +10,7 @@ export const paymentRouter = router({
     .input(z.object({ productIds: z.array(z.string()) }))
     .mutation(async ({ ctx, input }) => {
       const { user } = ctx;
-      const { productIds } = input;
+      let { productIds } = input;
 
       if (productIds.length === 0) {
         throw new TRPCError({ code: "BAD_REQUEST" });
@@ -33,7 +33,7 @@ export const paymentRouter = router({
         collection: "orders",
         data: {
           _isPaid: false,
-          products: filteredProducts.map((prod) => String(prod.id)),
+          products: filteredProducts.map((prod) => prod.id),
           user: user.id,
         },
       });
@@ -42,13 +42,13 @@ export const paymentRouter = router({
 
       filteredProducts.forEach((product) => {
         line_items.push({
-          price: String(product.priceId),
+          price: product.priceId!,
           quantity: 1,
         });
       });
 
       line_items.push({
-        price: "price_1PkojLSCoWNkWKYMKprhdrtn",
+        price: "price_1OCeBwA19umTXGu8s4p2G3aX",
         quantity: 1,
         adjustable_quantity: {
           enabled: false,
@@ -67,13 +67,12 @@ export const paymentRouter = router({
           },
           line_items,
         });
-
+        console.log(stripeSession, "stripe");
         return { url: stripeSession.url };
       } catch (err) {
         return { url: null };
       }
     }),
-
   pollOrderStatus: privateProcedure
     .input(z.object({ orderId: z.string() }))
     .query(async ({ input }) => {

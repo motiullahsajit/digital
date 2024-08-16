@@ -10,7 +10,7 @@ import {
   DropdownMenuTrigger,
 } from "./ui/dropdown-menu";
 import Link from "next/link";
-import { useAuth } from "../hooks/use-auth";
+import { useAuth } from "@/hooks/use-auth";
 
 const UserAccountNav = ({ user }: { user: User }) => {
   const { signOut } = useAuth();

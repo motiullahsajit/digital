@@ -1,7 +1,7 @@
 import dotenv from "dotenv";
 import path from "path";
+import type { InitOptions } from "payload/config";
 import payload, { Payload } from "payload";
-import { InitOptions } from "payload/config";
 import nodemailer from "nodemailer";
 
 dotenv.config({
@@ -9,12 +9,13 @@ dotenv.config({
 });
 
 const transporter = nodemailer.createTransport({
-  host: "smtp.resend.com",
-  secure: true,
-  port: 465,
+  service: "gmail",
+  host: "smtp.gmail.com",
+  port: 587,
+  secure: false,
   auth: {
-    user: "resend",
-    pass: process.env.RESEND_API_KEY,
+    user: process.env.USER,
+    pass: process.env.PASS,
   },
 });
 
@@ -34,8 +35,8 @@ interface Args {
 export const getPayloadClient = async ({
   initOptions,
 }: Args = {}): Promise<Payload> => {
-  if (!process.env.PAYLOAD_SECRET_KEY) {
-    throw new Error("Payload secret is missing");
+  if (!process.env.PAYLOAD_SECRET) {
+    throw new Error("PAYLOAD_SECRET is missing");
   }
 
   if (cached.client) {
@@ -46,10 +47,10 @@ export const getPayloadClient = async ({
     cached.promise = payload.init({
       email: {
         transport: transporter,
-        fromAddress: "onboarding@resend.dev",
+        fromAddress: "hello@digitalhippo.com",
         fromName: "DigitalHippo",
       },
-      secret: process.env.PAYLOAD_SECRET_KEY!,
+      secret: process.env.PAYLOAD_SECRET,
       local: initOptions?.express ? false : true,
       ...(initOptions || {}),
     });

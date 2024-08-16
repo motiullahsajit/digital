@@ -10,6 +10,7 @@ interface PageProps {
 const VerifyEmailPage = ({ searchParams }: PageProps) => {
   const token = searchParams.token;
   const toEmail = searchParams.to;
+
   return (
     <div className="container relative flex pt-20 flex-col items-center justify-center lg:px-0">
       <div className="mx-auto flex w-full flex-col justify-center space-y-6 sm:w-[350px]">
@@ -23,10 +24,12 @@ const VerifyEmailPage = ({ searchParams }: PageProps) => {
               <Image
                 src="/hippo-email-sent.png"
                 fill
-                alt="Hippo email sent image"
+                alt="hippo email sent image"
               />
             </div>
+
             <h3 className="font-semibold text-2xl">Check your email</h3>
+
             {toEmail ? (
               <p className="text-muted-foreground text-center">
                 We&apos;ve sent a verification link to{" "}
