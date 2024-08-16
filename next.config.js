@@ -8,7 +8,7 @@ const nextConfig = {
       },
       {
         protocol: "https",
-        hostname: "https://digital-assets.up.railway.app",
+        hostname: "digital-assets.up.railway.app",
       },
     ],
   },
