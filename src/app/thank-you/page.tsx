@@ -50,7 +50,7 @@ const ThankYouPage = async ({ searchParams }: PageProps) => {
   }, 0);
 
   return (
-    <main className="mx-auto max-w-2xl px-4 py-8 sm:px-6 sm:py-12">
+    <main className="mx-auto max-w-6xl px-4 py-8 sm:px-6 sm:py-12">
       <div className="lg:col-start-2">
         <p className="text-sm font-medium text-blue-600">Order successful</p>
         <h1 className="mt-2 text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl md:text-5xl">

@@ -56,7 +56,7 @@ export const paymentRouter = router({
         });
 
         const mailOptions = {
-          from: "DigitalHippo",
+          from: "Digital",
           to: user.email,
           subject: "Thanks for your order! This is your receipt.",
           html: ReceiptEmailHtml({
