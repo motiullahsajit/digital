@@ -63,11 +63,11 @@ const NavItem = ({
                   {category.featured.map((item) => (
                     <Link
                       href={item.href}
+                      key={item.name}
                       className="mt-6 block font-medium text-gray-900"
                     >
                       <div
                         onClick={() => close}
-                        key={item.name}
                         className="group relative text-base sm:text-sm"
                       >
                         <div className="relative aspect-video overflow-hidden rounded-lg bg-gray-100 group-hover:opacity-75">
