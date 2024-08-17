@@ -31,7 +31,7 @@ const PaymentForm = ({ searchParams }: PageProps) => {
   };
 
   return (
-    <div className="flex items-center justify-center my-36 bg-gray-50 px-4 sm:px-0">
+    <div className="flex items-center justify-center my-36 px-4 sm:px-0">
       <div className="w-full max-w-lg p-8 bg-white rounded-lg shadow-lg">
         <h2 className="text-3xl font-bold mb-6 text-center text-gray-800">
           Payment Details
