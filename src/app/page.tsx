@@ -51,6 +51,18 @@ export default function Home() {
           href="/products?sort=recent"
           title="Brand new"
         />
+
+        <ProductReel
+          query={{ category: "ui_kits", sort: "desc", limit: 4 }}
+          href="/products?category=ui_kits"
+          title="UI Kits"
+        />
+
+        <ProductReel
+          query={{ category: "icons", sort: "desc", limit: 4 }}
+          href="/products?category=icons"
+          title="Icons"
+        />
       </MaxWidthWrapper>
 
       <section className="border-t border-gray-200 bg-gray-50">
