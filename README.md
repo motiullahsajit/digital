@@ -25,28 +25,28 @@
 
 Below are some screenshots of the Digital marketplace:
 
-### Landing Page, Mobile Navigation, and Mobile View
+### Landing Page, Mobile Navigation, Mobile View, Product Details
 
 ![Home](overview/home.png)
 ![Mobile Navigation](overview/mobilenav.png)
 ![Mobile View](overview/mobileview.png)
+![Product Details](overview/product_details.png)
 
-### Sign In, Email Verification, and Cart
+### Sign In, Email Verification
 
 ![Sign In](overview/signin.png)
 ![Email Verification](overview/emailverification.png)
+
+### Cart, Checkout, Payment Order Completion, and Order Email
+
 ![Cart](overview/cart.png)
-
-### Checkout, Order Completion, and Order Email
-
 ![Checkout](overview/checkout.png)
+![Payment](overview/payment.png)
 ![Order Completion](overview/order_completion.png)
 ![Order Email](overview/order_email.png)
 
-### Product Details, Payment, and Admin Dashboard
+### Admin Dashboard
 
-![Product Details](overview/product_details.png)
-![Payment](overview/payment.png)
 ![Dashboard](overview/dashboard.png)
 
 ## 📝 License
