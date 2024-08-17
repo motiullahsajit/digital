@@ -3,19 +3,25 @@ import { Button } from "@/components/ui/button";
 import { Loader2 } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { FormEvent, useState } from "react";
+import { useCart } from "@/hooks/use-cart";
 interface PageProps {
   searchParams: {
     [key: string]: string | string[] | undefined;
   };
 }
+
 const PaymentForm = ({ searchParams }: PageProps) => {
   const orderId = searchParams.orderId;
   const router = useRouter();
+  const { clearCart } = useCart();
   const [isProcessing, setIsProcessing] = useState(false);
 
   const submitHandler = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setIsProcessing(true);
+
+    clearCart();
+
     setTimeout(() => {
       router.push(
         `${process.env.NEXT_PUBLIC_SERVER_URL}/thank-you?orderId=${orderId}`

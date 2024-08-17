@@ -34,6 +34,7 @@ const Page = () => {
   const {
     register,
     handleSubmit,
+    setValue,
     formState: { errors },
   } = useForm<TAuthCredentialsValidator>({
     resolver: zodResolver(AuthCredentialsValidator),
@@ -66,6 +67,12 @@ const Page = () => {
 
   const onSubmit = ({ email, password }: TAuthCredentialsValidator) => {
     signIn({ email, password });
+  };
+
+  const demoSignIn = (email: string, password: string) => {
+    setValue("email", email);
+    setValue("password", password);
+    handleSubmit(onSubmit)();
   };
 
   return (
@@ -166,6 +173,24 @@ const Page = () => {
                 Continue as seller
               </Button>
             )}
+
+            <Button
+              onClick={() => demoSignIn("motiullahsajt@gmail.com", "sajit123")}
+              variant="outline"
+              disabled={isLoading}
+            >
+              Demo User Sign in
+            </Button>
+
+            <Button
+              onClick={() =>
+                demoSignIn("motiullahsajit1@gmail.com", "sajit123")
+              }
+              variant="outline"
+              disabled={isLoading}
+            >
+              Demo Admin Sign in
+            </Button>
           </div>
         </div>
       </div>

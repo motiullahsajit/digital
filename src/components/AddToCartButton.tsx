@@ -6,27 +6,40 @@ import { useCart } from "@/hooks/use-cart";
 import { Product } from "@/payload-types";
 
 const AddToCartButton = ({ product }: { product: Product }) => {
-  const { addItem } = useCart();
+  const { addItem, items } = useCart();
+  const [isAdded, setIsAdded] = useState<boolean>(false);
   const [isSuccess, setIsSuccess] = useState<boolean>(false);
 
   useEffect(() => {
-    const timeout = setTimeout(() => {
-      setIsSuccess(false);
-    }, 2000);
+    const alreadyInCart = items.some((item) => item.product.id === product.id);
+    setIsAdded(alreadyInCart);
+  }, [items, product.id]);
 
-    return () => clearTimeout(timeout);
+  useEffect(() => {
+    if (isSuccess) {
+      const timeout = setTimeout(() => {
+        setIsSuccess(false);
+      }, 2000);
+      return () => clearTimeout(timeout);
+    }
   }, [isSuccess]);
+
+  const handleAddToCart = () => {
+    if (!isAdded) {
+      addItem(product);
+      setIsSuccess(true);
+      setIsAdded(true);
+    }
+  };
 
   return (
     <Button
-      onClick={() => {
-        addItem(product);
-        setIsSuccess(true);
-      }}
+      onClick={handleAddToCart}
       size="lg"
       className="w-full"
+      disabled={isAdded}
     >
-      {isSuccess ? "Added!" : "Add to cart"}
+      {isAdded ? "Already Added" : isSuccess ? "Added!" : "Add to cart"}
     </Button>
   );
 };
