@@ -4,6 +4,7 @@ import { Loader2 } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { FormEvent, useState } from "react";
 import { useCart } from "@/hooks/use-cart";
+
 interface PageProps {
   searchParams: {
     [key: string]: string | string[] | undefined;
@@ -30,7 +31,7 @@ const PaymentForm = ({ searchParams }: PageProps) => {
   };
 
   return (
-    <div className="flex items-center justify-center my-36 bg-gray-50">
+    <div className="flex items-center justify-center my-36 bg-gray-50 px-4 sm:px-0">
       <div className="w-full max-w-lg p-8 bg-white rounded-lg shadow-lg">
         <h2 className="text-3xl font-bold mb-6 text-center text-gray-800">
           Payment Details
@@ -66,8 +67,8 @@ const PaymentForm = ({ searchParams }: PageProps) => {
               className="mt-1 px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
             />
           </div>
-          <div className="flex space-x-4">
-            <div className="flex-1 flex flex-col">
+          <div className="flex flex-wrap space-x-4">
+            <div className="flex-1 min-w-[45%] flex flex-col">
               <label
                 htmlFor="expiryDate"
                 className="text-sm font-medium text-gray-700"
@@ -82,7 +83,7 @@ const PaymentForm = ({ searchParams }: PageProps) => {
                 className="mt-1 px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
               />
             </div>
-            <div className="flex-1 flex flex-col">
+            <div className="flex-1 min-w-[45%] flex flex-col mt-4 sm:mt-0">
               <label
                 htmlFor="cvc"
                 className="text-sm font-medium text-gray-700"

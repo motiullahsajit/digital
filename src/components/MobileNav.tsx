@@ -6,26 +6,26 @@ import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
+import UserAccountNav from "./UserAccountNav";
 
-const MobileNav = () => {
+interface MobileNavProps {
+  user?: any;
+}
+
+const MobileNav: React.FC<MobileNavProps> = ({ user }) => {
   const [isOpen, setIsOpen] = useState<boolean>(false);
-
   const pathname = usePathname();
 
-  // whenever we click an item in the menu and navigate away, we want to close the menu
   useEffect(() => {
     setIsOpen(false);
   }, [pathname]);
 
-  // when we click the path we are currently on, we still want the mobile menu to close,
-  // however we cant rely on the pathname for it because that won't change (we're already there)
   const closeOnCurrent = (href: string) => {
     if (pathname === href) {
       setIsOpen(false);
     }
   };
 
-  // remove second scrollbar when mobile menu is open
   useEffect(() => {
     if (isOpen) document.body.classList.add("overflow-hidden");
     else document.body.classList.remove("overflow-hidden");
@@ -61,13 +61,16 @@ const MobileNav = () => {
               </button>
             </div>
 
-            <div className="mt-2">
+            {user && (
+              <div className="flex justify-center">
+                <UserAccountNav user={user} />
+              </div>
+            )}
+
+            <div>
               <ul>
                 {PRODUCT_CATEGORIES.map((category) => (
-                  <li
-                    key={category.label}
-                    className="space-y-10 px-4 pb-8 pt-10"
-                  >
+                  <li key={category.label} className="space-y-10 px-4 py-8">
                     <div className="border-b border-gray-200">
                       <div className="-mb-px flex">
                         <p className="border-transparent text-gray-900 flex-1 whitespace-nowrap border-b-2 py-4 text-base font-medium">
@@ -102,24 +105,28 @@ const MobileNav = () => {
             </div>
 
             <div className="space-y-6 border-t border-gray-200 px-4 py-6">
-              <div className="flow-root">
-                <Link
-                  onClick={() => closeOnCurrent("/sign-in")}
-                  href="/sign-in"
-                  className="-m-2 block p-2 font-medium text-gray-900"
-                >
-                  Sign in
-                </Link>
-              </div>
-              <div className="flow-root">
-                <Link
-                  onClick={() => closeOnCurrent("/sign-up")}
-                  href="/sign-up"
-                  className="-m-2 block p-2 font-medium text-gray-900"
-                >
-                  Sign up
-                </Link>
-              </div>
+              {user ? null : (
+                <>
+                  <div className="flow-root">
+                    <Link
+                      onClick={() => closeOnCurrent("/sign-in")}
+                      href="/sign-in"
+                      className="-m-2 block p-2 font-medium text-gray-900"
+                    >
+                      Sign in
+                    </Link>
+                  </div>
+                  <div className="flow-root">
+                    <Link
+                      onClick={() => closeOnCurrent("/sign-up")}
+                      href="/sign-up"
+                      className="-m-2 block p-2 font-medium text-gray-900"
+                    >
+                      Sign up
+                    </Link>
+                  </div>
+                </>
+              )}
             </div>
           </div>
         </div>

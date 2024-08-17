@@ -179,7 +179,7 @@ const Page = () => {
               variant="outline"
               disabled={isLoading}
             >
-              Demo User Sign in
+              Demo User
             </Button>
 
             <Button
@@ -189,7 +189,7 @@ const Page = () => {
               variant="outline"
               disabled={isLoading}
             >
-              Demo Admin Sign in
+              Demo Admin
             </Button>
           </div>
         </div>
