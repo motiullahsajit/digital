@@ -3,6 +3,7 @@ import ProductReel from "@/components/ProductReel";
 import { Button, buttonVariants } from "@/components/ui/button";
 import { ArrowDownToLine, CheckCircle, Leaf } from "lucide-react";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 
 const perks = [
   {
@@ -42,7 +43,15 @@ export default function Home() {
             <Link href="/products" className={buttonVariants()}>
               Browse Trending
             </Link>
-            <Button variant="ghost">Our quality promise &rarr;</Button>
+            <Link
+              href="/products"
+              className={buttonVariants({
+                variant: "ghost",
+                className: "gap-1.5",
+              })}
+            >
+              Our quality promise &rarr;
+            </Link>
           </div>
         </div>
 
