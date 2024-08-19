@@ -7,6 +7,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
 import UserAccountNav from "./UserAccountNav";
+import Cart from "./Cart";
 
 interface MobileNavProps {
   user?: any;
@@ -61,11 +62,10 @@ const MobileNav: React.FC<MobileNavProps> = ({ user }) => {
               </button>
             </div>
 
-            {user && (
-              <div className="flex justify-center">
-                <UserAccountNav user={user} />
-              </div>
-            )}
+            <div className="flex justify-around mt-5">
+              {user && <UserAccountNav user={user} />}
+              <Cart />
+            </div>
 
             <div>
               <ul>
