@@ -17,6 +17,7 @@
 
 - **Next.js**
 - **TypeScript**
+- **MongoDB**
 - **tRPC**
 - **Payload (Headless CMS)**
 - **Shadcn-ui**
